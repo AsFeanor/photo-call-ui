@@ -113,7 +113,6 @@ export default {
           let imageOf = await new Image();
           imageOf.src = "data:image/png;base64, " + buffer;
 
-          console.log(imageOf.src);
           const descriptions = [];
           const img = await faceapi.fetchImage(imageOf.src);
 
