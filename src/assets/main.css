@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+body {
+    width: 100vw;
+    height: 100vh;
+    background: #1a1a1a;
+}
+
+.h-80 {
+    height: 80% !important;
+}
+
+.w-80 {
+    width: 80% !important;
+}
+
+.mouse-no-click {
+    cursor: not-allowed !important;
+}
