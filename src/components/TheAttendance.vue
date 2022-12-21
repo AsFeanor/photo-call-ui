@@ -77,12 +77,6 @@ export default {
     },
   },
   mounted() {
-    // axios.get("http://localhost:3000/students").then((response) => {
-    //   this.student_data = response.data.filter((item) => item.photo);
-    //   this.student_data.forEach((student) => {
-    //     student.is_attended = false;
-    //   });
-    // });
     if (this.$route && this.$route.query && this.$route.query.selectedCourse) {
       const params = {
         courseId: this.$route.query.selectedCourse
@@ -93,16 +87,14 @@ export default {
         this.student_data.forEach((student) => {
           student.is_attended = false;
         });
+        Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+          faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+          faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
+          faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+        ]).then(this.initApp);
       });
     }
-  },
-  created() {
-    Promise.all([
-      faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
-      faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
-      faceapi.nets.faceRecognitionNet.loadFromUri("/models"),
-      faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
-    ]).then(this.initApp);
   },
   methods: {
     async initApp() {
@@ -114,17 +106,6 @@ export default {
       const label = this.student_data.map((student) => student.name);
 
       console.log("label", label);
-
-      let studentImages = [];
-      this.student_data
-        .map((student) => student.photo.buffer)
-        .forEach((element) => {
-          let imageOf = new Image();
-          imageOf.src = "data:image/png;base64, " + element;
-          studentImages.push(imageOf);
-        });
-
-      console.log("images", studentImages);
 
       return Promise.all(
         label.map(async (label) => {
@@ -174,7 +155,7 @@ export default {
 
       setInterval(async () => {
         const detections = await faceapi
-          .detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions())
+          .detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.8}))
           .withFaceLandmarks()
           .withFaceDescriptors();
 
