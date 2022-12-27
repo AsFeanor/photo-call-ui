@@ -27,19 +27,12 @@
           Close Camera
         </button>
       </div>
-      <div class="col-12 col-md-10 col-lg-8 mt-5">
-        <h5>Students:</h5>
-        <ul class="list-group">
-          <li
-            v-for="(student, key) in student_data"
-            :key="key"
-            class="list-group-item d-flex justify-content-between"
-          >
-            <span>{{ student.name }}</span>
-            <span>{{ student.is_attended ? 'v' : 'x' }}</span>
-          </li>
-        </ul>
+      <div class="col-12 col-md-10 col-lg-8 text-center mt-3">
+        <button class="btn btn-secondary btn-lg" @click="updateAttendance">
+          Close Attendance
+        </button>
       </div>
+      <TheStudentList :student_data="student_data"/>
       <div class="col-12 col-md-10 col-lg-8 mt-5">
         <h5>Attendees:</h5>
         <ul class="list-group">
@@ -71,6 +64,9 @@ export default {
       stream: null,
     };
   },
+  components: {
+    TheStudentList: () => import('@/components/students/TheStudentList.vue'),
+  },
   computed: {
     video() {
       return document.getElementById("video");
@@ -97,6 +93,18 @@ export default {
     }
   },
   methods: {
+    updateAttendance() {
+      const courseId = this.$route.query.selectedCourse;
+      const payload = {
+        session: new Date(),
+        studentIds: this.student_data.filter(student => student.is_attended).map(x => x._id),
+      }
+      axios.patch(`http://localhost:3000/courses/${courseId}/attendance`, payload).then(response => {
+        console.log(response.data);
+      }).catch(e => {
+        console.error(e);
+      })
+    },
     async initApp() {
       this.LabeledFaceDescriptors = await this.loadImages();
       this.loading = false;

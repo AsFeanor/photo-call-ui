@@ -18,6 +18,42 @@ body {
     width: 80% !important;
 }
 
+.mouse-click {
+    cursor: pointer !important;
+}
+
 .mouse-no-click {
     cursor: not-allowed !important;
+}
+
+.pc-border-radius {
+    border-radius: 8px !important;
+}
+
+.pc-scroll-style {
+    overflow-y: auto;
+}
+
+.pc-scroll-style::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.pc-scroll-style::-webkit-scrollbar-track {
+    background: #282d31;
+}
+
+/* Handle */
+.pc-scroll-style::-webkit-scrollbar-thumb {
+    background: #212529;
+    border-radius: 8px;
+    border: 1.5px solid transparent;
+    background-clip: content-box;
+}
+
+/* Handle on hover */
+.pc-scroll-style::-webkit-scrollbar-thumb:hover {
+    background: #191d1f;
+    border: 1.5px solid transparent;
+    background-clip: content-box;
 }
