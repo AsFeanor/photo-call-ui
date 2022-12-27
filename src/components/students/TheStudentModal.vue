@@ -20,11 +20,12 @@
                   <label>Student Number:</label>
                   <input type="number" class="form-control" v-model="updateData.student_number">
                 </div>
-                <div class="col-12 d-flex align-items-center justify-content-center p-3" v-if="updateData.photo && updateData.photo.buffer">
-                  <img :src="'data:image/png;base64, ' + updateData.photo.buffer" style="width: auto; max-height: 400px;">
+                <div class="col-12 d-flex align-items-center justify-content-center p-3">
+                  <img :src="updatedPhotoURL" style="width: auto; max-height: 400px;" v-if="updatedPhotoURL">
+                  <img :src="'data:image/png;base64, ' + updateData.photo.buffer" style="width: auto; max-height: 400px;" v-else-if="updateData.photo && updateData.photo.buffer">
                 </div>
                 <div class="custom-file col-12 px-2">
-                  <input type="file" class="custom-file-input">
+                  <input type="file" class="custom-file-input" @change="onFileChange">
                   <label class="custom-file-label">Choose Student Photo</label>
                 </div>
               </div>
@@ -33,6 +34,9 @@
 
           <div class="modal-footer">
             <slot name="footer">
+              <button class="btn btn-primary" @click="createOrUpdateStudent">
+                {{ config.action === 'create' ? 'Create' : 'Update' }}
+              </button>
               <button class="btn btn-secondary" @click="$emit('close')">
                 Close
               </button>
@@ -47,7 +51,7 @@
 <script>
 
 export default {
-  name: "TheUpdateStudentModal",
+  name: "TheStudentModal",
   props: ['config'],
   data() {
     return {
@@ -55,16 +59,37 @@ export default {
         name: null,
         student_number: null,
         photo: null,
-      }
+      },
+      updatedPhotoURL: null,
+      createData: new FormData(),
     };
   },
   created() {
-    this.updateData.name = this.config.name;
-    this.updateData.student_number = this.config.student_number;
-    this.updateData.photo = this.config.photo;
+    if (this.config.action === 'update') {
+      this.initUpdateModal();
+    }
   },
   methods: {
-  }
+    initUpdateModal() {
+      this.updateData.name = this.config.data.name;
+      this.updateData.student_number = this.config.data.student_number;
+      this.updateData.photo = this.config.data.photo;
+    },
+    onFileChange(e) {
+      this.createData.append('photo', e.target.files[0]);
+      this.updateData.photo = e.target.files[0];
+      this.updatedPhotoURL = URL.createObjectURL(e.target.files[0]);
+    },
+    createOrUpdateStudent() {
+      this.createData.append('name', this.updateData.name);
+      this.createData.append('student_number', this.updateData.student_number);
+      if (this.config.action === 'create') {
+        this.$emit('createNewStudent', this.createData);
+      } else {
+        this.$emit('updateStudent', { form_data: this.createData, student_number: this.updateData.student_number });
+      }
+    },
+  },
 }
 </script>
 

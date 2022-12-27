@@ -1,9 +1,30 @@
 <template>
   <div>
-    <div class="d-flex justify-content-center align-items-center row no-gutters">
-      <TheStudentList :student_data="student_data" :update="true" @updateStudent="openUpdateStudentModal"/>
+    <div
+      class="d-flex justify-content-center align-items-center row no-gutters text-light"
+    >
+      <TheStudentList
+          v-if="student_data"
+        :student_data="student_data"
+        :update="true"
+        @updateStudent="openUpdateStudentModal"
+        @deleteStudent="deleteStudent"
+      />
+      <div class="col-12 col-md-10 col-lg-8 mt-5">
+        <button class="btn btn-primary" @click="openCreateStudentModal">
+          Create New Student
+        </button>
+      </div>
     </div>
-    <TheUpdateStudentModal v-if="updateStudentModal.show" @close="updateStudentModal.show = false" :config="updateStudentModal.data" :key="updateStudentModal.selector"/>
+    <TheStudentModal
+      v-if="studentModal.show"
+      @close="studentModal.show = false"
+      @createNewStudent="createNewStudent"
+      @updateStudent="updateStudent"
+      :config="studentModal"
+      :action="studentModal.action"
+      :key="studentModal.selector"
+    />
   </div>
 </template>
 
@@ -15,16 +36,17 @@ export default {
   data() {
     return {
       student_data: [],
-      updateStudentModal: {
+      studentModal: {
         show: false,
         selector: Math.random().toString(36).substr(2, 9),
         data: null,
+        action: null,
       },
     };
   },
   components: {
     TheStudentList: () => import("@/components/students/TheStudentList.vue"),
-    TheUpdateStudentModal: () => import('@/components/students/TheUpdateStudentModal.vue'),
+    TheStudentModal: () => import("@/components/students/TheStudentModal.vue"),
   },
   created() {
     this.initialize();
@@ -37,8 +59,65 @@ export default {
         .catch((e) => console.error(e));
     },
     openUpdateStudentModal(student) {
-      this.updateStudentModal.data = student;
-      this.updateStudentModal.show = true;
+      this.studentModal.data = student;
+      this.studentModal.action = "update";
+      this.studentModal.show = true;
+    },
+    openCreateStudentModal() {
+      this.studentModal.action = "create";
+      this.studentModal.show = true;
+    },
+    createNewStudent(student) {
+      axios
+        .post("http://localhost:3000/students", student)
+        .then((response) => {
+          console.log(response);
+          this.$toast.open({
+            message: "Successfully Created!",
+            type: "success",
+            duration: 5000,
+            dismissible: true,
+            position: "top-right",
+          });
+          this.initialize();
+        })
+        .catch((e) => console.error(e));
+    },
+    updateStudent(student) {
+      axios
+        .patch(
+          `http://localhost:3000/students/${student.student_number}`,
+          student.form_data
+        )
+        .then((response) => {
+          console.log(response);
+          this.$toast.open({
+            message: "Successfully Updated!",
+            type: "success",
+            duration: 5000,
+            dismissible: true,
+            position: "top-right",
+          });
+          this.initialize();
+          this.studentModal.show = false;
+        })
+        .catch((e) => console.error(e));
+    },
+    deleteStudent(student) {
+      axios
+        .delete(`http://localhost:3000/students/${student._id}`)
+        .then((response) => {
+          console.log(response);
+          this.$toast.open({
+            message: "Successfully Deleted!",
+            type: "success",
+            duration: 5000,
+            dismissible: true,
+            position: "top-right",
+          });
+          this.initialize();
+        })
+        .catch((e) => console.error(e));
     },
   },
 };

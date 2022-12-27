@@ -7,9 +7,12 @@
           :key="key"
           class="list-group-item d-flex justify-content-between"
           :class="update ? 'mouse-click' : ''"
-          @click="update ? $emit('updateStudent', student) : ''"
+          @click.self="update ? $emit('updateStudent', student) : ''"
       >
         <span>{{ student.name }}</span>
+        <span v-if="update">
+          <button class="btn btn-outline-danger" @click.self="$emit('deleteStudent', student)">Delete Student</button>
+        </span>
       </li>
     </ul>
   </div>

@@ -1,12 +1,21 @@
 <template>
   <div class="container">
-    <div class="row no-gutters w-100 d-flex justify-content-center align-items-center p-3">
+    <div
+      class="row no-gutters w-100 d-flex justify-content-center align-items-center p-3"
+    >
       <template v-for="(tab, index) in tabs">
-        <button class="btn btn-outline-light mr-2" :key="index" @click="selectTab(tab.value)">{{ tab.name }}</button>
+        <button
+          class="btn mr-2"
+          :class="selectedComponent === tab.value ? 'btn-light' : 'btn-outline-light'"
+          :key="index"
+          @click="selectTab(tab.value)"
+        >
+          {{ tab.name }}
+        </button>
       </template>
     </div>
     <keep-alive>
-      <component :is="selectedComponent"/>
+      <component :is="selectedComponent" />
     </keep-alive>
   </div>
 </template>
@@ -16,22 +25,22 @@ export default {
   name: "HomePage",
   data() {
     return {
-      selectedComponent: 'SelectCourse',
+      selectedComponent: "SelectCourse",
       tabs: [
         {
-          name: 'Select Course',
-          value: 'SelectCourse',
+          name: "Select Course",
+          value: "SelectCourse",
         },
         {
-          name: 'Student Management',
-          value: 'TheStudentManagement',
-        }
-      ]
+          name: "Student Management",
+          value: "TheStudentManagement",
+        },
+      ],
     };
   },
   components: {
-    SelectCourse: () => import('@/components/SelectCourse.vue'),
-    TheStudentManagement: () => import('@/components/TheStudentManagement.vue'),
+    SelectCourse: () => import("@/components/SelectCourse.vue"),
+    TheStudentManagement: () => import("@/components/TheStudentManagement.vue"),
   },
   methods: {
     selectTab(tab) {
