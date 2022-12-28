@@ -28,12 +28,12 @@
         </button>
       </div>
       <div class="col-12 col-md-10 col-lg-8 text-center mt-3">
-        <button class="btn btn-secondary btn-lg" @click="updateAttendance">
+        <button class="btn btn-danger btn-lg" @click="updateAttendance">
           Close Attendance
         </button>
       </div>
       <TheStudentList :student_data="student_data"/>
-      <div class="col-12 col-md-10 col-lg-8 mt-5">
+      <div class="col-12 col-md-10 col-lg-6 mt-5 px-2">
         <h5>Attendees:</h5>
         <ul class="list-group">
           <li
@@ -101,6 +101,21 @@ export default {
       }
       axios.patch(`http://localhost:3000/courses/${courseId}/attendance`, payload).then(response => {
         console.log(response.data);
+        this.$toast.open({
+          message: "Attendance Saved!",
+          type: "success",
+          duration: 5000,
+          dismissible: true,
+          position: "top-right",
+        });
+        setTimeout(() => {
+          this.$router.push({
+            path: '/attendance-list',
+            query: {
+              selectedCourse: this.$route.query.selectedCourse
+            }
+          });
+        }, 1000);
       }).catch(e => {
         console.error(e);
       })

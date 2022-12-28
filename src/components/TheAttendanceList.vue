@@ -76,7 +76,7 @@ export default {
     uiDateFormat,
     getAttendanceList() {
       axios
-        .get(`http://localhost:3000/courses/${this.courseId}`)
+        .get(`http://localhost:3000/courses/${this.courseId}/list`)
         .then((response) => {
           this.selectedCourse = response.data
           this.initAttendanceList();

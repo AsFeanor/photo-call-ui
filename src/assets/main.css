@@ -10,6 +10,16 @@ body {
     background: #1a1a1a;
 }
 
+.modal-container {
+    background-color: #1a1a1a !important;
+    border-radius: 12px !important;
+    color: #f8f9fa !important;
+}
+
+.list-group-item {
+    background-color: #212529;
+}
+
 .h-80 {
     height: 80% !important;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-10 col-lg-8 mt-5 text-light">
+  <div class="col-12 col-md-10 mt-5 text-light" :class="update ? 'col-lg-8' : 'col-lg-6 px-2'">
     <h5>Students:</h5>
     <ul class="list-group">
       <li
@@ -34,9 +34,6 @@ export default {
 </script>
 
 <style scoped>
-.list-group-item {
-  background-color: #212529;
-}
 .mouse-click:hover {
   opacity: .8;
 }

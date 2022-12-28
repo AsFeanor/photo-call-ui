@@ -11,7 +11,7 @@
 
           <div class="modal-body">
             <slot name="body">
-              <div class="col-12 mt-5">
+              <div class="col-12 my-2">
                 <h5>Attendees:</h5>
                 <ul class="list-group">
                   <li
