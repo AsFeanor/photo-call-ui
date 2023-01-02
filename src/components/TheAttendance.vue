@@ -206,7 +206,7 @@ export default {
         } else {
           console.log("SAAADDD");
         }
-      }, 1000);
+      }, 500);
     },
   },
 };

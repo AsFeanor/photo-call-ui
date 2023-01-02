@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid p-0">
     <div
       class="row no-gutters w-100 d-flex justify-content-center align-items-center p-3"
     >
@@ -35,12 +35,17 @@ export default {
           name: "Student Management",
           value: "TheStudentManagement",
         },
+        {
+          name: 'Course Management',
+          value: 'TheCourseManagement',
+        },
       ],
     };
   },
   components: {
     SelectCourse: () => import("@/components/SelectCourse.vue"),
     TheStudentManagement: () => import("@/components/TheStudentManagement.vue"),
+    TheCourseManagement: () => import('@/components/courses/TheCourseManagement.vue'),
   },
   methods: {
     selectTab(tab) {
