@@ -5,18 +5,34 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
         </li>
       </ul>
+      <div v-if="$store.getters.isAuthenticated">
+        <span class="navbar-text mr-3" v-if="$store && $store.state && $store.state.user_name">
+          {{ userName }}
+        </span>
+        <button class="btn btn-outline-secondary text-light" @click="logOut">LogOut</button>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
 export default {
-  name: "TheNavbar"
+  name: "TheNavbar",
+  computed: {
+    userName() {
+      return localStorage.getItem('user_name');
+    },
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('logout');
+    }
+  }
 }
 </script>
 

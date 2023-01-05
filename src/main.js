@@ -1,23 +1,21 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from 'vue-router';
-import routes from './routes';
+import router from './router'
+import store from './store'
 
 import dayjs from 'dayjs';
-import VueToast from 'vue-toast-notification';import 'vue-toast-notification/dist/theme-sugar.css';
+import VueToast from 'vue-toast-notification';
+import 'vue-toast-notification/dist/theme-sugar.css';
+import HelperMixin from "@/mixins/HelperMixin.js";
 
 import './assets/main.css';
 
-Vue.use(VueRouter);
 Vue.use(dayjs);
 Vue.use(VueToast);
-
-const router = new VueRouter({
-  routes,
-});
+Vue.use(HelperMixin);
 
 new Vue({
   router,
-  el: '#app',
-  render: h => h(App),
-})
+  store,
+  render: h => h(App)
+}).$mount('#app')

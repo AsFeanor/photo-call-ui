@@ -11,6 +11,9 @@ export default {
   name: 'App',
   components: {
     TheNavbar: () => import('@/components/TheNavbar.vue'),
+  },
+  created(){
+    this.$store.dispatch("initAuth");
   }
 }
 </script>
