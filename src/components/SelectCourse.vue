@@ -50,13 +50,22 @@ export default {
     };
   },
   created() {
-    this.fetchCourses();
+    if (this.$store.state.is_super_user) {
+      this.fetchCourses();
+    } else {
+      this.fetchLecturerCourses();
+    }
   },
   methods: {
     fetchCourses() {
       axios
           .get("http://localhost:3000/courses")
           .then((response) => (this.courses = response.data));
+    },
+    fetchLecturerCourses() {
+      axios.get(`http://localhost:3000/lecturers/${this.$store.state.email}/courses`).then((response) => {
+        this.courses = response.data.courses;
+      })
     },
     startAttendance() {
       this.$router.push({

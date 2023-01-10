@@ -26,9 +26,6 @@
         <label for="password" class="placeholder">Password</label>
       </div>
       <button type="submit" class="submit">Login</button>
-      <router-link to="/register"
-        ><a href="#" class="text-secondary">I am not a member</a></router-link
-      >
     </form>
   </div>
 </template>

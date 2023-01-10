@@ -77,7 +77,7 @@ export default {
       const params = {
         courseId: this.$route.query.selectedCourse
       }
-      axios.get(`http://localhost:3000/courses/${params.courseId}`, { params: params }).then((response) => {
+      axios.get(`http://localhost:3000/courses/${params.courseId}`, { params }).then((response) => {
         const students = response.data.students;
         this.student_data = students.filter((item) => item.photo);
         this.student_data.forEach((student) => {
@@ -194,9 +194,7 @@ export default {
         console.log(results);
         if (
           results.length > 0 &&
-          this.student_data
-            .map((student) => student.name)
-            .indexOf(results[0].label) > -1
+          this.student_data.map((student) => student.name).indexOf(results[0].label) > -1
         ) {
           this.student_data.find(student => student.name === results[0].label).is_attended = true;
           if (this.attended_students.filter(x => x === results[0].label).length === 0) {

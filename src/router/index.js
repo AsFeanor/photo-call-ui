@@ -39,11 +39,6 @@ const routes = [
         }
     },
     {
-        path: "/register",
-        name: "TheRegister",
-        component:  () => import('@/components/Auth/TheRegister.vue'),
-    },
-    {
         path: "/login",
         name: "TheLogin",
         component:  () => import('@/components/Auth/TheLogin.vue'),

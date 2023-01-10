@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid p-0">
+  <div class="container-fluid p-0" v-if="superUser !== undefined">
     <div
       class="row no-gutters w-100 d-flex justify-content-center align-items-center p-3"
     >
@@ -8,8 +8,7 @@
           class="btn mr-2"
           :class="selectedComponent === tab.value ? 'btn-light' : 'btn-outline-light'"
           :key="index"
-          @click="selectTab(tab.value)"
-        >
+          @click="selectTab(tab.value)">
           {{ tab.name }}
         </button>
       </template>
@@ -35,17 +34,35 @@ export default {
           name: "Student Management",
           value: "TheStudentManagement",
         },
-        {
-          name: 'Course Management',
-          value: 'TheCourseManagement',
-        },
       ],
     };
   },
   components: {
     SelectCourse: () => import("@/components/SelectCourse.vue"),
     TheStudentManagement: () => import("@/components/TheStudentManagement.vue"),
-    TheCourseManagement: () => import('@/components/courses/TheCourseManagement.vue'),
+    TheCourseManagement: () =>
+      import("@/components/courses/TheCourseManagement.vue"),
+    TheLecturerManagement: () =>
+      import("@/components/TheLecturerManagement.vue"),
+  },
+  computed: {
+    superUser() {
+      return localStorage.getItem("super_user");
+    },
+  },
+  created() {
+    if (this.superUser && this.superUser === "true") {
+      this.tabs.push(
+        {
+          name: "Lecturer Management",
+          value: "TheLecturerManagement",
+        },
+        {
+          name: "Course Management",
+          value: "TheCourseManagement",
+        },
+      );
+    }
   },
   methods: {
     selectTab(tab) {

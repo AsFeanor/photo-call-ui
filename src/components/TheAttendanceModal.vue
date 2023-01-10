@@ -45,9 +45,6 @@ import {uiDateFormat} from "@/services/dates.services";
 export default {
   name: "TheAttendanceModal",
   props: ['config'],
-  created() {
-    console.log(this.config);
-  },
   methods: {
     uiDateFormat,
   }

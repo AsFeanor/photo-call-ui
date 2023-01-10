@@ -136,10 +136,7 @@ export default {
     initAttendanceList() {
       this.studentList = this.selectedCourse.students;
       this.attendanceList = this.selectedCourse.attendance;
-      this.attendanceCount = this.attendanceList
-        .map((x) => x.students)
-        .flat()
-        .map((x) => x._id);
+      this.attendanceCount = this.attendanceList.map((x) => x.students).flat().map((x) => x._id);
     },
     openAttendanceDialog(data) {
       this.attendanceDialog.show = true;

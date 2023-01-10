@@ -80,6 +80,7 @@ export default {
             position: "top-right",
           });
           this.initialize();
+          this.studentModal.show = false;
         })
         .catch((e) => console.error(e));
     },

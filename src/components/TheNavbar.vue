@@ -12,7 +12,7 @@
       </ul>
       <div v-if="$store.getters.isAuthenticated">
         <span class="navbar-text mr-3" v-if="$store && $store.state && $store.state.user_name">
-          {{ userName }}
+          {{ $store.state.user_name }}
         </span>
         <button class="btn btn-outline-secondary text-light" @click="logOut">LogOut</button>
       </div>
