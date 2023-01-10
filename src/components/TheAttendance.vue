@@ -144,7 +144,6 @@ export default {
             .withFaceLandmarks()
             .withFaceDescriptor();
           descriptions.push(detections.descriptor);
-          console.log(descriptions);
 
           return new faceapi.LabeledFaceDescriptors(label, descriptions);
         })
@@ -176,6 +175,8 @@ export default {
       };
 
       setInterval(async () => {
+        const sendDate = (new Date()).getTime();
+
         const detections = await faceapi
           .detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions({scoreThreshold: 0.8}))
           .withFaceLandmarks()
@@ -191,6 +192,9 @@ export default {
         const results = resizedDetections.map((d) =>
           faceMatcher.findBestMatch(d.descriptor)
         );
+        const receiveDate = (new Date()).getTime();
+        const responseTimeMs = receiveDate - sendDate;
+        console.log('response time', responseTimeMs);
         console.log(results);
         if (
           results.length > 0 &&
